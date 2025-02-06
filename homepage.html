@@ -11,7 +11,11 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
-            <h1 class="logo">MyConsultHours</h1>
+            <div class="greeting-container">
+                <h1 class="logo" id="greeting">
+                    Hi, User
+                </h1>
+            </div>
             <div class="nav-buttons">
                 <button id="logHoursBtn" class="btn yellow-btn">Log Hours</button>
                 <button class="btn logout-btn">
@@ -24,18 +28,19 @@
    <!-- Analytics Section -->
    <section class="statistics">
     <div class="stat-box">
-        <span class="stat-number">0</span>
+        <span class="stat-number" id="hoursToday">0</span> 
         <p class="stat-text">Hours Today</p>
     </div>
     <div class="stat-box">
-        <span class="stat-number">0</span>
+        <span class="stat-number" id="hoursThisWeek">0</span> 
         <p class="stat-text">Hours This Week</p>
     </div>
     <div class="stat-box">
-        <span class="stat-number">0</span>
+        <span class="stat-number" id="hoursThisMonth">0</span> 
         <p class="stat-text">Hours This Month</p>
     </div>
 </section>
+
 
 
     <!-- Table Section -->

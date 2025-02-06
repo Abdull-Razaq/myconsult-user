@@ -17,10 +17,10 @@ fetch('fetch_hours.php')
     .then(data => {
         const tableBody = document.querySelector('#hoursTable tbody');
         data.forEach(hour => {
-            const formattedDate = new Date(hour.date).toLocaleDateString();  // Format to show only the date
+            const formattedDate = new Date(hour.date).toLocaleDateString();  
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${formattedDate}</td>  <!-- Shows only the date -->
+                <td>${formattedDate}</td>  
                 <td>${hour.task_name}</td>
                 <td>${hour.hours}</td>
                 <td>${hour.task_description}</td>
@@ -34,16 +34,47 @@ fetch('fetch_hours.php')
         alert('There was an issue fetching the hours.');
     });
 
-// Fetch the analytics data
-fetch('get_analytics.php')
-.then(response => response.json())
-.then(data => {
-    // Populate the analytics section with the fetched data
-    document.querySelector('.stat-number:nth-child(1)').textContent = data.hours_today || 0;
-    document.querySelector('.stat-number:nth-child(2)').textContent = data.hours_week || 0;
-    document.querySelector('.stat-number:nth-child(3)').textContent = data.hours_month || 0;
-})
-.catch(error => {
-    console.error('Error fetching analytics:', error);
+   // Function to fetch the analytics data
+   function fetchAnalytics() {
+    fetch('get_analytics.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('hoursToday').innerText = data.hours_today;
+            document.getElementById('hoursThisWeek').innerText = data.hours_week;
+            document.getElementById('hoursThisMonth').innerText = data.hours_month;
+        })
+        .catch(error => {
+            console.error('Error fetching analytics data:', error);
+            alert('There was an issue fetching the analytics data.');
+        });
+}
+
+// Call fetchAnalytics when the page is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    fetchAnalytics();
 });
+
+function fetchUserDetails() {
+    fetch('get_user.php')  
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+            } else {
+                document.getElementById('greeting').innerText = `Hi, ${data.username}`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user details:', error);
+        });
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', fetchUserDetails);
+
 
